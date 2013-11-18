@@ -201,6 +201,7 @@
                             list += '</div>';
                             
                             list += '<div class="ytv-list-inner"><ul>';
+                            console.log(videos);
                             for(i=0; i<videos.length; i++){
                                 if(videos[i].media$group.yt$duration){
                                     var video = {
@@ -257,7 +258,7 @@
                     },
                     
                     loadVideo: function(slug, autoplay){
-                        
+                        console.log('slug ', slug);
                         var house = doc.getElementsByClassName('ytv-video')[0];
                         house.innerHTML = '<div id="ytv-video-player"></div>';
                         
@@ -291,6 +292,22 @@
                 },
                 
                 endpoints: {
+                    selectVideoBySlug : function (videoId) {
+                        var target = document.querySelector('[data-ytv="' + videoId +'"]');
+                        if (target) {
+                            action.endpoints.selectNode(target);
+                        }
+                    },
+                    selectNode : function (target) {
+                        var activeEls = doc.getElementsByClassName('ytv-active'),
+                            i;
+                        for(i=0; i<activeEls.length; i++){
+                            activeEls[i].className="";
+                        }
+                        target.parentNode.className="ytv-active";
+                        action.logic.loadVideo(target.getAttribute('data-ytv'), true);
+                    },
+
                     videoClick: function(e){
                         var target = utils.parentUntil(e.target ? e.target : e.srcElement, 'data-ytv');
                         
@@ -301,13 +318,7 @@
                                 // Load Video
                                 utils.events.prevent(e);
                                 
-                                var activeEls = doc.getElementsByClassName('ytv-active'),
-                                    i;
-                                for(i=0; i<activeEls.length; i++){
-                                    activeEls[i].className="";
-                                }
-                                target.parentNode.className="ytv-active";
-                                action.logic.loadVideo(target.getAttribute('data-ytv'), true);
+                                action.endpoints.selectNode(target);
                                 
                             }
                         
@@ -373,7 +384,7 @@
             initialize = function(id, opts){
                 utils.deepExtend(settings, opts);
                 settings.element = (typeof id==='string') ? doc.getElementById(id) : id;
-                if(settings.element && settings.user){
+                if(settings.element && (settings.user || settings.playlist)) {
                     prepare.youtube(function(){
                         prepare.build();
                         action.bindEvents();
@@ -392,6 +403,7 @@
                 settings.element.className = '';
                 settings.element.innerHTML = '';
             };
+            this.selectVideoBySlug = action.endpoints.selectVideoBySlug;
             this.fullscreen = {
                 state: function(){
                     return (settings.element.className).indexOf('ytv-full') !== -1;
