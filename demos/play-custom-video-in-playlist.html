@@ -16,21 +16,20 @@
 		<div id="frame"></div>
 		
 		<div class="description">
-			<p>This demo allows users to select playlists (if playlists exist)</p>
-			<p class="special">&larr; Click Here</p>
+			<p>This demo allows users to play a given video by slug. Open your console and type:</p>
+			<code>
+				controller.selectVideoBySlug('39qmbl7mpJQ');
+			</code>
 		</div>
 		
 		<script type="text/javascript" src="../src/ytv.js"></script>
 		<script>
 			window.onload = function(){
-				
-				
 				window.controller = new YTV('frame', {
 					playlist: 'PLoAwrE6bET_hiW4LYc2PXJ7-xCT6Yd-bi',
 					controls: false,
 					autoplay: true
 				});
-		
 			};
 		</script>
 	</body>
