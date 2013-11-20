@@ -106,7 +106,7 @@
                     }
                 },
                 endpoints: {
-                    base: 'http://gdata.youtube.com/',
+                    base: '//gdata.youtube.com/',
                     userInfo: function(){
                         return utils.endpoints.base+'feeds/api/users/'+settings.user+'?v=2&alt=json';
                     },
@@ -136,7 +136,7 @@
             prepare = {
                 youtube: function(fn){
                     var tag = doc.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api";
+                    tag.src = "//www.youtube.com/iframe_api";
                     var firstScriptTag = doc.getElementsByTagName('script')[0];
                     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                     win.onYouTubeIframeAPIReady = fn;
@@ -181,7 +181,7 @@
                             var list = '',
                                 user = {
                                     title: userInfo.entry.title.$t,
-                                    url: 'http://youtube.com/user/'+userInfo.entry.yt$username.$t,
+                                    url: '//youtube.com/user/'+userInfo.entry.yt$username.$t,
                                     thumb: userInfo.entry.media$thumbnail.url,
                                     summary: userInfo.entry.summary.$t,
                                     subscribers: userInfo.entry.yt$statistics.subscriberCount,
